@@ -11,7 +11,6 @@ struct ContentView: View {
     @State private var inputUnit = "Fahrenheit"
     @State private var inputValue: Double = 0.0
     @State private var outputUnit = "Celsius"
-    @State private var outputValue: Double = 0.0
     @FocusState private var inputIsFocused: Bool
     
     var units = ["Fahrenheit", "Celsius", "Kelvin"]
@@ -27,9 +26,17 @@ struct ContentView: View {
     }
     
     func celsiusOut (celsius: Double) -> Double {
-        //maths
-        return 0.0
+        if outputUnit == "Fahrenheit" {
+            return (celsius * 9/5) + 32
+        } else if inputUnit == "Kelvin" {
+            return celsius + 273.15
+        } else {
+            return celsius
+        }
     }
+    
+    // # TODO make outputValue a computed property calling on the two functions above
+    var outputValue: Double = 0.0
     
     var body: some View {
         NavigationStack {
