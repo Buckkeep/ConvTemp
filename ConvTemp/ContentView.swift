@@ -8,14 +8,72 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+    @State private var inputUnit = "Fahrenheit"
+    @State private var inputValue: Double = 0.0
+    @State private var outputUnit = "Celsius"
+    @State private var outputValue: Double = 0.0
+    @FocusState private var inputIsFocused: Bool
+    
+    var units = ["Fahrenheit", "Celsius", "Kelvin"]
+    
+    func allCelsius (number: Double) -> Double {
+        if inputUnit == "Fahrenheit" {
+            return (number - 32) * 5/9
+        } else if inputUnit == "Kelvin" {
+            return number - 273.15
+        } else {
+            return number
         }
-        .padding()
+    }
+    
+    func celsiusOut (celsius: Double) -> Double {
+        //maths
+        return 0.0
+    }
+    
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Select input unit") {
+                    Picker("Input unit", selection: $inputUnit) {
+                        ForEach(units, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+                
+                Section("Enter input value") {
+                    TextField("Your number", value: $inputValue, format: .number)
+                }
+                .keyboardType(.decimalPad)
+                .focused($inputIsFocused)
+                
+                Section("Select output unit") {
+                    Picker("Input unit", selection: $outputUnit) {
+                        ForEach(units, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    
+                }
+                
+                Section("Your result") {
+                    // Maths result here
+                    Text(outputValue, format: .number)
+                }
+                
+            }
+            .navigationTitle("ConvTemp")
+            .toolbar {
+                if inputIsFocused {
+                    Button("Done") {
+                        inputIsFocused = false
+                    }
+                    }
+            }
+        }
     }
 }
 
