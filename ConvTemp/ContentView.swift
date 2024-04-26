@@ -15,29 +15,34 @@ struct ContentView: View {
     
     var units = ["Fahrenheit", "Celsius", "Kelvin"]
     
-    func allCelsius (number: Double) -> Double {
-        if inputUnit == "Fahrenheit" {
-            return (number - 32) * 5/9
-        } else if inputUnit == "Kelvin" {
-            return number - 273.15
-        } else {
-            return number
+    var inCelsius: Double {
+        
+        let finalInputValue: Double = inputValue
+        
+        switch inputUnit {
+            case "Fahrenheit":
+                return (inputValue - 32) * 5/9
+            case "Kelvin":
+                return inputValue - 273.15
+            default:
+                return finalInputValue
         }
     }
-    
-    func celsiusOut (celsius: Double) -> Double {
-        if outputUnit == "Fahrenheit" {
-            return (celsius * 9/5) + 32
-        } else if inputUnit == "Kelvin" {
-            return celsius + 273.15
-        } else {
-            return celsius
+        
+    var outputValue: Double {
+        let finalOutputValue: Double = inCelsius
+        
+        switch outputUnit {
+            case "Fahrenheit":
+                return (inCelsius * 9/5) + 32
+            case "Kelvin":
+                return inCelsius + 273.15
+            default:
+                return finalOutputValue
         }
     }
-    
-    // # TODO make outputValue a computed property calling on the two functions above
-    var outputValue: Double = 0.0
-    
+        
+        
     var body: some View {
         NavigationStack {
             Form {
@@ -78,12 +83,13 @@ struct ContentView: View {
                     Button("Done") {
                         inputIsFocused = false
                     }
-                    }
+                }
             }
         }
     }
 }
-
+    
 #Preview {
-    ContentView()
+        ContentView()
 }
+
